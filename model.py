@@ -1,4 +1,5 @@
 import requests
+import json
 from datetime import datetime
 
 class UserModel:
@@ -18,14 +19,17 @@ class UserModel:
 
         }
         
-        self.endPoint = 'https://api.nasa.gov/neo/rest/v1/feed'
+        self.endPoint = f'https://api.nasa.gov/neo/rest/v1/feed?start_date={currentDate}&end_date={currentDate}&api_key={self.accessId}'
 
         url = self.endPoint
-        return requests.get(url,params=params)
+
+        return requests.get(url)
 
     def fetchData(self):
             response = self.request()
             
-            objectList = response.json()['near_earth_objects"']
+
+
+            objectList = response.json()['near_earth_objects']
 
             print(objectList)
