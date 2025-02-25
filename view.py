@@ -10,6 +10,8 @@ class UserView:
 
     def run(self):
         print(self.controller.fetchData())
+        
+
 
     def run2(self):
         window = tk.Tk()
