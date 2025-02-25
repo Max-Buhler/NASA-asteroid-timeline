@@ -54,4 +54,8 @@ class UserView:
         diameterLabel.config(text=f"diameter: {self.asteroids[id]['diamter_m']}m")
         velocityLabel.config(text=f"velocity: {self.asteroids[id]['velocity_kms']}km/s")
         distanceLabel.config(text=f"distance: {self.asteroids[id]['distance_km']}km")
+        if(self.asteroids[id]['hazardous']):
+            nameLabel.config(fg='#f00')
+        else:
+            nameLabel.config(fg='#000')
 
