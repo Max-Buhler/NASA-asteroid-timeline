@@ -1,6 +1,7 @@
 from tkinter import *
 from ttkwidgets import TimeLine
 from datetime import datetime
+import webbrowser
 
 class UserView:
     def __init__(self):
@@ -46,12 +47,16 @@ class UserView:
         self.root.geometry("1500x1080")
         self.root.mainloop()
         
+    def callback(self, url):
+        webbrowser.open_new_tab(url)
+    
     def time_to_float(self, time_str):
         h, m = time_str.split(':')
         return int(h) + int(m) / 60
     
     def update_information(self, id, nameLabel, timeLabel, diameterLabel, velocityLabel, distanceLabel):
-        nameLabel.config(text=f"name: {self.asteroids[id]['name']}")
+        nameLabel.config(text=f"name: {self.asteroids[id]['name']}", cursor="hand2")
+        nameLabel.bind("<Button-1>", lambda e: self.callback(self.asteroids[id]['link']))
         timeLabel.config(text=f"time: {self.asteroids[id]['time']}")
         diameterLabel.config(text=f"diameter: {self.asteroids[id]['diamter_m']}m")
         velocityLabel.config(text=f"velocity: {self.asteroids[id]['velocity_kms']}km/s")
