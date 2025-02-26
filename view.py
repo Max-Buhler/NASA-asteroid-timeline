@@ -38,10 +38,12 @@ class UserView:
         velocityLabel.grid(row=7, column=0, pady=5)
         distanceLabel = Label(self.root, text="", font=("Arial", 10))
         distanceLabel.grid(row=8, column=0, pady=5)
+        linkLabel = Label(self.root, text="", font=("Arial", 10))
+        linkLabel.grid(row=9, column=0, pady=5)
         for id, asteroid in enumerate(self.asteroids):
-            timeline.tag_configure(str(id), right_callback=lambda *args, ida=id: self.update_information(ida, nameLabel, timeLabel, diameterLabel, velocityLabel, distanceLabel))
+            timeline.tag_configure(str(id), right_callback=lambda *args, ida=id: self.update_information(ida, nameLabel, timeLabel, diameterLabel, velocityLabel, distanceLabel, linkLabel))
             time = self.time_to_float(str(asteroid['time']))
-            timeline.create_marker("1", time, time+0.3, background="white", text='O', move=False, tags=(str(id),))
+            timeline.create_marker("1", time, time+0.21, background="white", text='O', move=False, tags=(str(id),))
         timeline.draw_timeline()
         timeline.grid(row=2, column=0, padx=10, pady=10)
         self.root.geometry("1500x1080")
@@ -54,13 +56,14 @@ class UserView:
         h, m = time_str.split(':')
         return int(h) + int(m) / 60
     
-    def update_information(self, id, nameLabel, timeLabel, diameterLabel, velocityLabel, distanceLabel):
-        nameLabel.config(text=f"name: {self.asteroids[id]['name']}", cursor="hand2")
-        nameLabel.bind("<Button-1>", lambda e: self.callback(self.asteroids[id]['link']))
+    def update_information(self, id, nameLabel, timeLabel, diameterLabel, velocityLabel, distanceLabel, linkLabel):
+        nameLabel.config(text=f"name: {self.asteroids[id]['name']}")
         timeLabel.config(text=f"time: {self.asteroids[id]['time']}")
         diameterLabel.config(text=f"diameter: {self.asteroids[id]['diamter_m']}m")
         velocityLabel.config(text=f"velocity: {self.asteroids[id]['velocity_kms']}km/s")
         distanceLabel.config(text=f"distance: {self.asteroids[id]['distance_km']}km")
+        linkLabel.config(text=f"link: {self.asteroids[id]['link']}", cursor="hand2")
+        linkLabel.bind("<Button-1>", lambda e: self.callback(self.asteroids[id]['link']))
         if(self.asteroids[id]['hazardous']):
             nameLabel.config(fg='#f00')
         else:
