@@ -1,6 +1,6 @@
 from tkinter import *
 from ttkwidgets import TimeLine
-
+from datetime import datetime
 
 class UserView:
     def __init__(self):
@@ -12,10 +12,12 @@ class UserView:
     def run(self):
         self.asteroids = self.controller.fetchData()
         width=1400
+        Label(self.root, text=f"Asteroids today: {datetime.now().date()}", font=("Arial", 18)).grid(row=0, column=0, pady=10)
+        Label(self.root, text='Right-click on asteroids to display information', font=("Arial", 14)).grid(row=1, column=0, pady=10)
         timeline = TimeLine(
             self.root,
             categories={"1":{"text": "Asteroids"}},
-            height=20,
+            height=10,
             width=width,
             extend=True,
             start=0.0,
@@ -24,23 +26,23 @@ class UserView:
             unit='h',
             zoom_enabled=False
         )
-        Label(self.root, text="Asteroid Information", font=("Arial", 14)).grid(row=1, column=0, pady=20)
+        Label(self.root, text="Asteroid Information", font=("Arial", 14)).grid(row=3, column=0, pady=20)
         nameLabel = Label(self.root, text="", font=("Arial", 10))
-        nameLabel.grid(row=2, column=0, pady=5)
+        nameLabel.grid(row=4, column=0, pady=5)
         timeLabel = Label(self.root, text="", font=("Arial", 10))
-        timeLabel.grid(row=3, column=0, pady=5)
+        timeLabel.grid(row=5, column=0, pady=5)
         diameterLabel = Label(self.root, text="", font=("Arial", 10))
-        diameterLabel.grid(row=4, column=0, pady=5)
+        diameterLabel.grid(row=6, column=0, pady=5)
         velocityLabel = Label(self.root, text="", font=("Arial", 10))
-        velocityLabel.grid(row=5, column=0, pady=5)
+        velocityLabel.grid(row=7, column=0, pady=5)
         distanceLabel = Label(self.root, text="", font=("Arial", 10))
-        distanceLabel.grid(row=6, column=0, pady=5)
+        distanceLabel.grid(row=8, column=0, pady=5)
         for id, asteroid in enumerate(self.asteroids):
             timeline.tag_configure(str(id), right_callback=lambda *args, ida=id: self.update_information(ida, nameLabel, timeLabel, diameterLabel, velocityLabel, distanceLabel))
             time = self.time_to_float(str(asteroid['time']))
-            timeline.create_marker("1", time, time+0.5, background="white", text=asteroid['name'], move=False, tags=(str(id),))
+            timeline.create_marker("1", time, time+0.3, background="white", text='O', move=False, tags=(str(id),))
         timeline.draw_timeline()
-        timeline.grid(row=0, column=0, padx=10, pady=10)
+        timeline.grid(row=2, column=0, padx=10, pady=10)
         self.root.geometry("1500x1080")
         self.root.mainloop()
         
